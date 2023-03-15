@@ -4,6 +4,27 @@
   
     
     <entry>
+      <title>Linux环境搭建</title>
+      <link href="/2023/03/15/Linux%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
+      <url>/2023/03/15/Linux%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
+      
+        <content type="html"><![CDATA[<h3 id="CentOS卸载原有jdk并重新安装jdk1-8"><a href="#CentOS卸载原有jdk并重新安装jdk1-8" class="headerlink" title="CentOS卸载原有jdk并重新安装jdk1.8"></a>CentOS卸载原有jdk并重新安装jdk1.8</h3><h4 id="查看jdk"><a href="#查看jdk" class="headerlink" title="查看jdk"></a>查看jdk</h4><pre><code>rpm -qa | grep java</code></pre><h4 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h4><pre><code>rpm -e --nodeps 文件名</code></pre><h4 id="重新安装jdk1-8"><a href="#重新安装jdk1-8" class="headerlink" title="重新安装jdk1.8"></a>重新安装jdk1.8</h4><pre><code>[^可以在编程宝库下载jdk]: [JDK下载 - 编程宝库 (codebaoku.com)](http://www.codebaoku.com/jdk/jdk-index.html)mkdir /soft/cd /soft/tar -zxvf jdk-8u271-linux-x64.tar.gzcd /etc/profilevi /etc/profile 末尾添加内容export JAVA_HOME=/soft/jdk1.8.0_151export JRE_HOME=${JAVA_HOME}/jre export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib export PATH=${JAVA_HOME}/bin:$PATHsource profile再次检测java -version，javac -version</code></pre><h3 id="Tomcat"><a href="#Tomcat" class="headerlink" title="Tomcat"></a>Tomcat</h3><h4 id="官网下载-tomcat-apache-org"><a href="#官网下载-tomcat-apache-org" class="headerlink" title="[官网下载]: tomcat.apache.org"></a>[官网下载]: tomcat.apache.org</h4><h4 id="将安装包发送到soft目录"><a href="#将安装包发送到soft目录" class="headerlink" title="将安装包发送到soft目录"></a>将安装包发送到soft目录</h4><h4 id="tar-zxvf-安装包名"><a href="#tar-zxvf-安装包名" class="headerlink" title="tar -zxvf 安装包名"></a>tar -zxvf 安装包名</h4><h4 id="配置Tomcat，修改-x2F-etc-x2F-profile文件，添加文件内容如下"><a href="#配置Tomcat，修改-x2F-etc-x2F-profile文件，添加文件内容如下" class="headerlink" title="配置Tomcat，修改/etc/profile文件，添加文件内容如下"></a>配置Tomcat，修改/etc/profile文件，添加文件内容如下</h4><pre><code>export TOMCAT_HOME=/soft/apache-tomcat-9.0.60export CATALINA_HOME=/soft/apache-tomcat-9.0.60source profile</code></pre><h4 id="将端口8080加入到防火墙中"><a href="#将端口8080加入到防火墙中" class="headerlink" title="将端口8080加入到防火墙中"></a>将端口8080加入到防火墙中</h4><pre><code>firewall -cmd --zone=public --add-port=8080/tcp --permanent</code></pre><h4 id="更新防火墙规则"><a href="#更新防火墙规则" class="headerlink" title="更新防火墙规则"></a>更新防火墙规则</h4><pre><code>firewall -cmd --reload</code></pre><h4 id="查看防火墙中已打开的端口"><a href="#查看防火墙中已打开的端口" class="headerlink" title="查看防火墙中已打开的端口"></a>查看防火墙中已打开的端口</h4><pre><code>sfirewall-cmd --zone=public --list-ports</code></pre><h4 id="访问，在浏览器中输入"><a href="#访问，在浏览器中输入" class="headerlink" title="访问，在浏览器中输入"></a>访问，在浏览器中输入</h4><pre><code>http://IP地址：8080</code></pre><h3 id="MySQL"><a href="#MySQL" class="headerlink" title="MySQL"></a>MySQL</h3><h4 id="下载安装包"><a href="#下载安装包" class="headerlink" title="下载安装包"></a>下载安装包</h4><pre><code>wget mysql57-community-release-el7-11.noarch.rpm</code></pre><h4 id="放到soft文件夹-安装"><a href="#放到soft文件夹-安装" class="headerlink" title="放到soft文件夹 安装"></a>放到soft文件夹 安装</h4><pre><code>rpm -Uxh wget mysql57-community-release-el7-11.noarch.rpm</code></pre><h4 id="修改-x2F-etc-x2F-yum-repos-d下的repo文件定义版本"><a href="#修改-x2F-etc-x2F-yum-repos-d下的repo文件定义版本" class="headerlink" title="修改/etc/yum.repos.d下的repo文件定义版本"></a>修改/etc/yum.repos.d下的repo文件定义版本</h4><pre><code>Enabled=1gpgcheck=0</code></pre><h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><pre><code>yum instal mysql-community-server</code></pre><h4 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h4><pre><code>service mysqld start</code></pre><h4 id="默认密码"><a href="#默认密码" class="headerlink" title="默认密码"></a>默认密码</h4><pre><code>vi /var/log/mysqld.log</code></pre><h4 id="登录修改密码"><a href="#登录修改密码" class="headerlink" title="登录修改密码"></a>登录修改密码</h4><pre><code>mysql -uroot -p***set global validate_password_policy=0;set password=password(‘新密码’);</code></pre><h4 id="使用Naviat连接Mysql不成功"><a href="#使用Naviat连接Mysql不成功" class="headerlink" title="使用Naviat连接Mysql不成功"></a>使用Naviat连接Mysql不成功</h4><pre><code>##### 修改防火墙规则![](D:\ClassData\note\images\Snipaste_2022-03-21_04-13-26.png)##### 未开放远程连接![](D:\ClassData\note\images\Snipaste_2022-03-21_04-15-36.png)mysql -uroot -p***use mysqlselect host from user where user='root';update user set host = '%' where user = 'root';flush privileges;</code></pre><h3 id="部署项目"><a href="#部署项目" class="headerlink" title="部署项目"></a>部署项目</h3><h4 id="将WEB项目打包成war文件"><a href="#将WEB项目打包成war文件" class="headerlink" title="将WEB项目打包成war文件"></a>将WEB项目打包成war文件</h4><h4 id="将war包传输到centos的soft-x2F-tomcat-x2F-webapps中"><a href="#将war包传输到centos的soft-x2F-tomcat-x2F-webapps中" class="headerlink" title="将war包传输到centos的soft/tomcat/webapps中"></a>将war包传输到centos的soft/tomcat/webapps中</h4><h4 id="启动tomcat"><a href="#启动tomcat" class="headerlink" title="启动tomcat"></a>启动tomcat</h4>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Linux </tag>
+            
+            <tag> CentOS </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>Hello World</title>
       <link href="/2023/03/09/hello-world/"/>
       <url>/2023/03/09/hello-world/</url>
@@ -11,6 +32,12 @@
         <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new "My New Post"</code></pre><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server</code></pre><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate</code></pre><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy</code></pre><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
       
       
+      
+        <tags>
+            
+            <tag> Hexo </tag>
+            
+        </tags>
       
     </entry>
     
